@@ -1,4 +1,6 @@
 using System;
+using System.Reactive.Linq;
+using System.Threading.Tasks;
 using app;
 using Xunit;
 
@@ -14,10 +16,20 @@ public class CalculatorTests
         _seed = new Random().Next();
         _calculator = new Calculator(_seed);
     }
+
     [Fact]
-    public void Add_5_should_return_seed_plus_5()
+    public async Task Value_should_return_initial_value()
     {
-        var sum = _calculator.Add(5);
-        Assert.Equal(_seed + 5, sum);
+        var single = await _calculator.Value.FirstAsync();
+        Assert.Equal(_seed, single);
+    }
+    [Fact]
+    public async Task Add_5_should_return_seed_plus_5()
+    {
+        var single = await _calculator.Value.FirstAsync();
+        _calculator.Add(5);
+        
+        var second = await _calculator.Value.FirstAsync();
+        Assert.Equal(_seed + 5, second);
     }
 }
