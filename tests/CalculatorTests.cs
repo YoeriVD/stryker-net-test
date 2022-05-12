@@ -26,10 +26,8 @@ public class CalculatorTests
     [Fact]
     public async Task Add_5_should_return_seed_plus_5()
     {
-        var single = await _calculator.Value.FirstAsync();
         _calculator.Add(5);
-        
-        var second = await _calculator.Value.FirstAsync();
-        Assert.Equal(_seed + 5, second);
+        var result = await _calculator.Value.FirstAsync();
+        Assert.Equal(_seed + 5, result);
     }
 }
